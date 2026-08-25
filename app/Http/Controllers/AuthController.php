@@ -17,10 +17,20 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'login' => 'required|string',
             'password' => 'required|string',
         ]);
+
+        $loginInput = $request->input('login');
+
+        // Дозволяємо вхід як по логіну "admin", так і по email
+        $email = ($loginInput === 'admin') ? 'admin@gmail.com' : $loginInput;
+
+        $credentials = [
+            'email' => $email,
+            'password' => $request->input('password'),
+        ];
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();

@@ -9,16 +9,24 @@
             <h1>Новини науки та техніки</h1>
             <p>Актуальні матеріали про технології, космос, штучний інтелект та наукові відкриття.</p>
 
-            <form class="search-box" id="searchForm" method="GET" action="{{ route('home') }}">
-                <input type="text" name="search" id="liveSearchInput" value="{{ $search }}" placeholder="Живий пошук новин..." autocomplete="off">
+            <form class="search-box" method="GET" action="{{ route('home') }}">
+                @if(!empty($category))
+                    <input type="hidden" name="category" value="{{ $category }}">
+                @endif
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ $search ?? '' }}"
+                    placeholder="Пошук новин..."
+                >
                 <button type="submit">Шукати</button>
             </form>
         </div>
 
         <div class="stats-card">
             <h3>Статистика сайту</h3>
-            <p><strong>{{ $totalNews }}</strong> новин у базі</p>
-            <p><strong>{{ $totalViews }}</strong> переглядів</p>
+            <p><strong>{{ $totalNews ?? 0 }}</strong> новин у базі</p>
+            <p><strong>{{ $totalViews ?? 0 }}</strong> переглядів</p>
         </div>
     </div>
 </section>
@@ -32,9 +40,9 @@
         <a href="{{ route('home', ['category' => 'IT']) }}" class="{{ $category === 'IT' ? 'active' : '' }}">IT</a>
     </section>
 
-    <section class="news-grid" id="newsList">
+    <section class="news-grid">
         @forelse ($news as $item)
-            <article class="news-card" data-title="{{ Str::lower($item->title) }}" data-category="{{ $item->category }}">
+            <article class="news-card">
                 <span class="category">{{ $item->category }}</span>
                 <h3>{{ $item->title }}</h3>
                 <p>{{ $item->short_description }}</p>

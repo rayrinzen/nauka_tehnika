@@ -1,26 +1,39 @@
 @extends('layouts.app')
 
-@section('title', $news->title)
+@php
+    $item = $newsItem ?? $news;
+@endphp
+
+@section('title', $item->title ?? 'Перегляд новини')
 
 @section('content')
-<main class="container" style="max-width: 800px; margin-top: 2rem; margin-bottom: 3rem;">
-    <a href="{{ route('home') }}" style="display: inline-block; margin-bottom: 1rem; color: #3b82f6; text-decoration: none;">&larr; Назад до списку новин</a>
-
-    <article class="single-news">
-        <span class="category" style="background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 4px; font-weight: 600;">{{ $news->category }}</span>
-        <h1 style="margin-top: 1rem; font-size: 2rem;">{{ $news->title }}</h1>
-
-        <div class="card-meta" style="color: #64748b; margin: 1rem 0; font-size: 0.9rem;">
-            <span>Дата публікації: <strong>{{ $news->publish_date }}</strong></span> |
-            <span>Переглядів: <strong>👁 {{ $news->views }}</strong></span>
+<main class="container" style="max-width: 850px; margin: 40px auto; padding: 0 15px;">
+    <article class="news-single" style="background: var(--card-bg, #fff); padding: 30px; border-radius: 8px; border: 1px solid #e1e4e8;">
+        <div style="margin-bottom: 20px;">
+            <a href="{{ route('home') }}" style="text-decoration: none; color: #007bff; font-weight: 500;">← Повернутися до всіх новин</a>
         </div>
 
-        <p style="font-size: 1.1rem; font-weight: 500; color: #334155; line-height: 1.6; margin-bottom: 1.5rem;">
-            {{ $news->short_description }}
-        </p>
+        <span class="category" style="display: inline-block; font-size: 13px; font-weight: bold; color: #007bff; text-transform: uppercase; margin-bottom: 10px;">
+            {{ $item->category }}
+        </span>
 
-        <div class="news-content" style="line-height: 1.8; color: #1e293b; font-size: 1rem;">
-            {!! nl2br(e($news->content)) !!}
+        <h1 style="font-size: 28px; margin: 0 0 15px 0; color: #222; line-height: 1.3;">
+            {{ $item->title }}
+        </h1>
+
+        <div class="card-meta" style="display: flex; gap: 20px; font-size: 13px; color: #888; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+            <span>📅 {{ $item->publish_date }}</span>
+            <span>👁 {{ $item->views }} переглядів</span>
+        </div>
+
+        @if(!empty($item->short_description))
+            <p style="font-size: 16px; font-weight: 600; color: #444; line-height: 1.6; margin-bottom: 20px;">
+                {{ $item->short_description }}
+            </p>
+        @endif
+
+        <div class="news-content" style="font-size: 16px; line-height: 1.8; color: #333; white-space: pre-line;">
+            {{ $item->content }}
         </div>
     </article>
 </main>

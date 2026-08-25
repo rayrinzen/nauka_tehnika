@@ -9,45 +9,35 @@ class NewsController extends Controller
 {
     public function index(Request $request)
     {
-        $category = $request->query('category', '');
-        $search = $request->query('search', '');
+        $category = $request->input('category');
+        $search = $request->input('search');
 
         $query = News::query();
 
-        if (!empty($category) && $category !== 'all') {
+        if (!empty($category)) {
             $query->where('category', $category);
         }
 
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('short_description', 'like', "%{$search}%")
-                  ->orWhere('content', 'like', "%{$search}%");
+                $q->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('short_description', 'like', '%' . $search . '%')
+                  ->orWhere('content', 'like', '%' . $search . '%');
             });
         }
 
-        $news = $query->orderBy('publish_date', 'desc')->get();
+        $news = $query->orderBy('id', 'desc')->get();
         $totalNews = News::count();
-        $totalViews = News::sum('views') ?: 0;
+        $totalViews = News::sum('views');
 
-        return view('news.index', compact('news', 'category', 'search', 'totalNews', 'totalViews'));
+        return view('news.index', compact('news', 'totalNews', 'totalViews', 'category', 'search'));
     }
 
-    public function show(News $news)
+    public function show($id)
     {
-        $news->increment('views');
-        return view('news.show', compact('news'));
-    }
+        $newsItem = News::findOrFail($id);
+        $newsItem->increment('views');
 
-    // Для живого поиска через AJAX (заменяет старый api/search.php)
-    public function liveSearch(Request $request)
-    {
-        $query = $request->get('q', '');
-        $news = News::where('title', 'like', "%{$query}%")
-                    ->orWhere('short_description', 'like', "%{$query}%")
-                    ->orderBy('publish_date', 'desc')
-                    ->get();
-
-        return response()->json($news);
+        return view('news.show', compact('newsItem'));
     }
 }

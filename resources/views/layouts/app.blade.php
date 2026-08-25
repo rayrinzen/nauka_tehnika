@@ -18,7 +18,7 @@
             <a href="{{ route('home', ['category' => 'Космос']) }}">Космос</a>
             <a href="{{ route('home', ['category' => 'IT']) }}">IT</a>
             @auth
-                <a href="{{ route('admin.index') }}">Адмін-панель</a>
+                <a href="{{ route('admin.news.index') }}">Адмін-панель</a>
                 <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                     @csrf
                     <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; font: inherit;">Вийти</button>
