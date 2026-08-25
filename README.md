@@ -7,16 +7,16 @@
 
 ---
 
-## 🛠 Стек технологій
+## Стек технологій
 - **Backend:** PHP 8.0+, Laravel 9 (MVC, Eloquent ORM, Blade-шаблонізатор, Middleware-автентифікація)
 - **Database:** MySQL 8.0
 - **Frontend:** HTML5, CSS3 (з підтримкою темної/світлої теми), JavaScript
 
 ---
 
-## 🚀 Покрокова інструкція із запуску проєкту
+##  Покрокова інструкція із запуску проєкту
 
 ### 1. Клонування репозиторію
 ```bash
-git clone 
-cd science-news-laravel
+git clone https://github.com/rayrinzen/nauka_tehnika.git
+cd nauka_tehnika
