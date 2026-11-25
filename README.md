@@ -188,5 +188,7 @@ nauka_tehnika/
 
 https://github.com/rayrinzen/nauka_tehnika
 
+Відеопрезентація проєкту:
 
+https://drive.google.com/file/d/1VH1XvWkZfecfoo4bgt_hR0JrLPvij7cv/view?usp=sharing
 
